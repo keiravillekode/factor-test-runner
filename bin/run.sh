@@ -31,15 +31,18 @@ mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
+# Remove STOP-HERE lines to unskip all tests
+sed -i '/STOP-HERE/d' "${solution_dir}/${slug}/${slug}-tests.factor"
+
 # Run the tests for the provided implementation file and redirect stdout and
 # stderr to capture it
-test_output=$(false)
-# TODO: substitute "false" with the actual command to run the test:
-# test_output=$(command_to_run_tests 2>&1)
+test_output=$(cd "${solution_dir}" && factor -e="USING: vocabs.loader tools.test tools.test.private namespaces kernel system ; \".\" add-vocab-root \"${slug}\" require \"${slug}\" test test-failures get empty? [ 0 exit ] [ 1 exit ] if" 2>&1)
+test_exit=$?
+test_output=$(printf '%s\n' "${test_output}" | grep -v "^fatal error for monitor root" | sed '/^(U) \[/,$d' | sed '/^$/d')
 
 # Write the results.json file based on the exit code of the command that was 
 # just executed that tested the implementation file
-if [ $? -eq 0 ]; then
+if [ $test_exit -eq 0 ]; then
     jq -n '{version: 1, status: "pass"}' > ${results_file}
 else
     # OPTIONAL: Sanitize the output

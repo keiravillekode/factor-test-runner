@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "status": "error",
-  "message": "TODO: replace with correct output"
+  "status": "fail",
+  "message": "/opt/test-runner/tests/syntax-error/syntax-error/syntax-error.factor\n4: : greet ( -- str ) @#$% ;\n                          ^\nNo word named '@#$%' found in current vocabulary search path"
 }

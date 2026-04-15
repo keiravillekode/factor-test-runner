@@ -1,6 +1,6 @@
 # Exercism Factor Test Runner
 
-The Docker image to automatically run tests on Factor solutions submitted to [Exercism].
+The Docker image to automatically run tests on [Factor] solutions submitted to [Exercism].
 
 ## Getting started
 
@@ -69,3 +69,4 @@ Bear in mind though that the performance on Exercism's production servers is oft
 [test-runners]: https://github.com/exercism/docs/tree/main/building/tooling/test-runners
 [golden]: https://ro-che.info/articles/2017-12-04-golden-tests
 [exercism]: https://exercism.org
+[factor]: https://factorcode.org/

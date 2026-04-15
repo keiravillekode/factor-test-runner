@@ -1,5 +1,5 @@
 {
   "version": 1,
   "status": "fail",
-  "message": "TODO: replace with correct output"
+  "message": "/opt/test-runner/tests/empty-file/empty-file/empty-file-tests.factor\n2: { \"hello\" } [ greet ] unit-test\n                      ^\nNo word named 'greet' found in current vocabulary search path"
 }

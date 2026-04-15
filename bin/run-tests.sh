@@ -20,12 +20,9 @@ for test_dir in tests/*; do
 
     bin/run.sh "${test_dir_name}" "${test_dir_path}" "${test_dir_path}"
 
-    # OPTIONAL: Normalize the results file
-    # If the results.json file contains information that changes between 
-    # different test runs (e.g. timing information or paths), you should normalize
-    # the results file to allow the diff comparison below to work as expected
-
+    # Normalize paths in results to match Docker environment
     file="results.json"
+    sed -i "s~${test_dir_path}~/opt/test-runner/tests/${test_dir_name}~g" "${test_dir_path}/${file}"
     expected_file="expected_${file}"
     echo "${test_dir_name}: comparing ${file} to ${expected_file}"
 
