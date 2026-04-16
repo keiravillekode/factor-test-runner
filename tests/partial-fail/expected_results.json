@@ -1,5 +1,17 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\nUnit Test: { { \"world\" } [ greet ] }"
+  "tests": [
+    {
+      "name": "Test 1",
+      "test_code": "{ \"hello\" } [ greet ] unit-test",
+      "status": "pass"
+    },
+    {
+      "name": "Test 2",
+      "test_code": "{ \"world\" } [ greet ] unit-test",
+      "status": "fail",
+      "message": "<any non-empty>"
+    }
+  ]
 }

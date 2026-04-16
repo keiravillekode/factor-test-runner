@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "Test 1",
+      "test_code": "{ } [ 600 [ \"x\" write ] times ] unit-test",
+      "status": "pass",
+      "output": "<truncated>"
+    }
+  ]
+}

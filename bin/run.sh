@@ -1,23 +1,21 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Synopsis:
-# Run the test runner on a solution.
-
+# Run the Exercism Factor test runner on a solution.
+#
 # Arguments:
-# $1: exercise slug
-# $2: path to solution folder
-# $3: path to output directory
-
+#   $1: exercise slug
+#   $2: path to solution folder
+#   $3: path to output directory
+#
 # Output:
-# Writes the test results to a results.json file in the passed-in output directory.
-# The test results are formatted according to the specifications at https://github.com/exercism/docs/blob/main/building/tooling/test-runners/interface.md
+# Writes a v3 results.json to the output directory, per
+# https://github.com/exercism/docs/blob/main/building/tooling/test-runners/interface.md
 
-# Example:
-# ./bin/run.sh two-fer path/to/solution/folder/ path/to/output/directory/
+set -eu
 
-# If any required arguments is missing, print the usage and exit
-if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-    echo "usage: ./bin/run.sh exercise-slug path/to/solution/folder/ path/to/output/directory/"
+if [ -z "${1:-}" ] || [ -z "${2:-}" ] || [ -z "${3:-}" ]; then
+    echo "usage: $0 exercise-slug path/to/solution-folder path/to/output-dir"
     exit 1
 fi
 
@@ -25,39 +23,41 @@ slug="$1"
 solution_dir=$(realpath "${2%/}")
 output_dir=$(realpath "${3%/}")
 results_file="${output_dir}/results.json"
+tests_file="${solution_dir}/${slug}/${slug}-tests.factor"
 
-# Create the output directory if it doesn't exist
 mkdir -p "${output_dir}"
 
 echo "${slug}: testing..."
 
-# Remove STOP-HERE lines to unskip all tests
-sed -i '/STOP-HERE/d' "${solution_dir}/${slug}/${slug}-tests.factor"
-
-# Run the tests for the provided implementation file and redirect stdout and
-# stderr to capture it
-test_output=$(cd "${solution_dir}" && factor -e="USING: vocabs.loader tools.test tools.test.private namespaces kernel system ; \".\" add-vocab-root \"${slug}\" require \"${slug}\" test test-failures get empty? [ 0 exit ] [ 1 exit ] if" 2>&1)
-test_exit=$?
-test_output=$(printf '%s\n' "${test_output}" | grep -v "^fatal error for monitor root" | sed '/^(U) \[/,$d' | sed '/^$/d')
-
-# Write the results.json file based on the exit code of the command that was 
-# just executed that tested the implementation file
-if [ $test_exit -eq 0 ]; then
-    jq -n '{version: 1, status: "pass"}' > ${results_file}
-else
-    # OPTIONAL: Sanitize the output
-    # In some cases, the test output might be overly verbose, in which case stripping
-    # the unneeded information can be very helpful to the student
-    # sanitized_test_output=$(printf "${test_output}" | sed -n '/Test results:/,$p')
-
-    # OPTIONAL: Manually add colors to the output to help scanning the output for errors
-    # If the test output does not contain colors to help identify failing (or passing)
-    # tests, it can be helpful to manually add colors to the output
-    # colorized_test_output=$(echo "${test_output}" \
-    #      | GREP_COLOR='01;31' grep --color=always -E -e '^(ERROR:.*|.*failed)$|$' \
-    #      | GREP_COLOR='01;32' grep --color=always -E -e '^.*passed$|$')
-
-    jq -n --arg output "${test_output}" '{version: 1, status: "fail", message: $output}' > ${results_file}
+# Strip STOP-HERE markers so all tests run
+if [ -f "${tests_file}" ]; then
+    sed -i '/STOP-HERE/d' "${tests_file}"
 fi
+
+script_dir=$(dirname "$(readlink -f "$0")")
+workdir=$(mktemp -d)
+trap 'rm -rf "${workdir}"' EXIT
+
+harness="${workdir}/harness.factor"
+metadata="${workdir}/metadata.ndjson"
+
+if [ ! -f "${tests_file}" ]; then
+    # Produce a graceful error response if the tests file is missing
+    printf '{\n  "version": 3,\n  "status": "error",\n  "message": "Tests file not found: %s"\n}\n' "${tests_file}" > "${results_file}"
+    echo "${slug}: done"
+    exit 0
+fi
+
+# Extract per-test metadata + build the wrapped harness Factor file
+python3 "${script_dir}/extract_tests.py" "${tests_file}" "${harness}" > "${metadata}"
+
+# Run Factor over the harness; add solution_dir as a vocab root.
+raw_output=$(
+    cd "${solution_dir}" && \
+    factor -e="USING: vocabs.loader ; \".\" add-vocab-root \"${harness}\" run-file" 2>&1
+) || true
+
+# Assemble the v3 JSON from metadata + harness output
+printf '%s' "${raw_output}" | python3 "${script_dir}/assemble_results.py" "${metadata}" > "${results_file}"
 
 echo "${slug}: done"

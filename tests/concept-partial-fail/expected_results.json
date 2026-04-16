@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "status": "fail",
+  "tests": [
+    {
+      "name": "Test 1",
+      "test_code": "{ t } [ f can-do-fast-attack ] unit-test",
+      "task_id": 1,
+      "status": "pass"
+    },
+    {
+      "name": "Test 2",
+      "test_code": "{ f } [ t can-do-fast-attack ] unit-test",
+      "task_id": 1,
+      "status": "pass"
+    },
+    {
+      "name": "Test 3",
+      "test_code": "{ f } [ f f f can-spy ] unit-test",
+      "task_id": 2,
+      "status": "pass"
+    },
+    {
+      "name": "Test 4",
+      "test_code": "{ t } [ f f t can-spy ] unit-test",
+      "task_id": 2,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 5",
+      "test_code": "{ t } [ f t f can-spy ] unit-test",
+      "task_id": 2,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 6",
+      "test_code": "{ t } [ f t t can-spy ] unit-test",
+      "task_id": 2,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 7",
+      "test_code": "{ t } [ t f f can-spy ] unit-test",
+      "task_id": 2,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 8",
+      "test_code": "{ t } [ t f t can-spy ] unit-test",
+      "task_id": 2,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 9",
+      "test_code": "{ t } [ t t t can-spy ] unit-test",
+      "task_id": 2,
+      "status": "pass"
+    },
+    {
+      "name": "Test 10",
+      "test_code": "{ f } [ f f can-signal-prisoner ] unit-test",
+      "task_id": 3,
+      "status": "pass"
+    },
+    {
+      "name": "Test 11",
+      "test_code": "{ t } [ f t can-signal-prisoner ] unit-test",
+      "task_id": 3,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 12",
+      "test_code": "{ f } [ t f can-signal-prisoner ] unit-test",
+      "task_id": 3,
+      "status": "pass"
+    },
+    {
+      "name": "Test 13",
+      "test_code": "{ f } [ t t can-signal-prisoner ] unit-test",
+      "task_id": 3,
+      "status": "fail",
+      "message": "<any non-empty>"
+    },
+    {
+      "name": "Test 14",
+      "test_code": "{ f } [ f f f f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 15",
+      "test_code": "{ t } [ f f f t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 16",
+      "test_code": "{ t } [ f f t f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 17",
+      "test_code": "{ t } [ f f t t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 18",
+      "test_code": "{ f } [ f t f f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 19",
+      "test_code": "{ f } [ f t f t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 20",
+      "test_code": "{ f } [ f t t f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 21",
+      "test_code": "{ f } [ f t t t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 22",
+      "test_code": "{ f } [ t f f f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 23",
+      "test_code": "{ t } [ t f f t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 24",
+      "test_code": "{ f } [ t f t f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 25",
+      "test_code": "{ t } [ t f t t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 26",
+      "test_code": "{ f } [ t t f f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 27",
+      "test_code": "{ f } [ t t f t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 28",
+      "test_code": "{ f } [ t t t f can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    },
+    {
+      "name": "Test 29",
+      "test_code": "{ f } [ t t t t can-free-prisoner ] unit-test",
+      "task_id": 4,
+      "status": "pass"
+    }
+  ]
+}
