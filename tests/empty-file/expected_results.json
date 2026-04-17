@@ -1,5 +1,5 @@
 {
   "version": 3,
   "status": "error",
-  "message": "<any non-empty>"
+  "message": "harness.factor\n39: [ [ { \"hello\" } [ greet ] unit-test ] with-string-writer \"pass\" ]\n                           ^\nNo word named 'greet' found in current vocabulary search path"
 }

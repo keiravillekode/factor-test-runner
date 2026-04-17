@@ -1,12 +1,1 @@
-{
-  "version": 3,
-  "status": "pass",
-  "tests": [
-    {
-      "name": "Test 1",
-      "test_code": "{ } [ 600 [ \"x\" write ] times ] unit-test",
-      "status": "pass",
-      "output": "<truncated>"
-    }
-  ]
-}
+{"tests":[{"output":"Unit Test: { { } [ 600 [ \"x\" write ] times ] }\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx [output truncated]","name":"Test 1","test_code":"{ } [ 600 [ \"x\" write ] times ] unit-test","status":"pass"}],"status":"pass","version":3}

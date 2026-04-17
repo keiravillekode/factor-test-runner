@@ -1,11 +1,1 @@
-{
-  "version": 3,
-  "status": "pass",
-  "tests": [
-    {
-      "name": "Test 1",
-      "test_code": "{ \"hello\" } [ greet ] unit-test",
-      "status": "pass"
-    }
-  ]
-}
+{"tests":[{"output":"Unit Test: { { \"hello\" } [ greet ] }\n","name":"Test 1","test_code":"{ \"hello\" } [ greet ] unit-test","status":"pass"}],"status":"pass","version":3}

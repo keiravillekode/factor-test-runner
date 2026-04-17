@@ -1,5 +1,5 @@
 {
   "version": 3,
   "status": "error",
-  "message": "<any non-empty>"
+  "message": "harness.factor\n2: USING: syntax-error tools.test ;\n                      ^\n/solution/syntax-error/syntax-error.factor\n4: : greet ( -- str ) @#$% ;\n                          ^\nNo word named '@#$%' found in current vocabulary search path"
 }

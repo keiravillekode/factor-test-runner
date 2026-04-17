@@ -1,18 +1,1 @@
-{
-  "version": 3,
-  "status": "fail",
-  "tests": [
-    {
-      "name": "Test 1",
-      "test_code": "{ \"hello\" } [ greet ] unit-test",
-      "status": "fail",
-      "message": "<any non-empty>"
-    },
-    {
-      "name": "Test 2",
-      "test_code": "{ \"world\" } [ greet ] unit-test",
-      "status": "fail",
-      "message": "<any non-empty>"
-    }
-  ]
-}
+{"tests":[{"name":"Test 1","test_code":"{ \"hello\" } [ greet ] unit-test","message":"T{ assert-sequence\n    { got { \"wrong\" } }\n    { expected { \"hello\" } }\n}","status":"fail"},{"name":"Test 2","test_code":"{ \"world\" } [ greet ] unit-test","message":"T{ assert-sequence\n    { got { \"wrong\" } }\n    { expected { \"world\" } }\n}","status":"fail"}],"status":"fail","version":3}

@@ -39,25 +39,37 @@ workdir=$(mktemp -d)
 trap 'rm -rf "${workdir}"' EXIT
 
 harness="${workdir}/harness.factor"
-metadata="${workdir}/metadata.ndjson"
 
 if [ ! -f "${tests_file}" ]; then
-    # Produce a graceful error response if the tests file is missing
     printf '{\n  "version": 3,\n  "status": "error",\n  "message": "Tests file not found: %s"\n}\n' "${tests_file}" > "${results_file}"
     echo "${slug}: done"
     exit 0
 fi
 
-# Extract per-test metadata + build the wrapped harness Factor file
-python3 "${script_dir}/extract_tests.py" "${tests_file}" "${harness}" > "${metadata}"
+# Build a Factor harness that runs each test and writes results.json itself.
+factor -roots=/opt/test-runner \
+    -e="USING: harness-builder ; \"${tests_file}\" \"${harness}\" \"${results_file}\" build-harness" 2>&1
 
-# Run Factor over the harness; add solution_dir as a vocab root.
+# Make sure no stale results.json from a prior run survives — the fallback
+# below depends on its absence as a "harness didn't complete" signal.
+rm -f "${results_file}"
+
 raw_output=$(
     cd "${solution_dir}" && \
     factor -e="USING: vocabs.loader ; \".\" add-vocab-root \"${harness}\" run-file" 2>&1
 ) || true
 
-# Assemble the v3 JSON from metadata + harness output
-printf '%s' "${raw_output}" | python3 "${script_dir}/assemble_results.py" "${metadata}" > "${results_file}"
+# If the harness wrote results.json itself, we're done. Otherwise Factor
+# crashed before reaching emit-results — wrap the captured output as a
+# top-level error.
+if [ ! -s "${results_file}" ]; then
+    sanitized=$(printf '%s' "${raw_output}" \
+        | grep -v '^fatal error for monitor root' \
+        | sed '/^(U) \[/,$d' \
+        | sed '/^[[:space:]]*$/d' \
+        | sed "s#${workdir}/##g")
+    [ -z "${sanitized}" ] && sanitized="Harness did not run to completion."
+    jq -n --arg msg "${sanitized}" '{version: 3, status: "error", message: $msg}' > "${results_file}"
+fi
 
 echo "${slug}: done"
