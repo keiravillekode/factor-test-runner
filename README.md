@@ -8,21 +8,17 @@ of the test runner interface: per-test `name`, `status`, `test_code`,
 
 ## How it works
 
-`bin/run.sh` orchestrates three steps:
+`bin/run.sh` orchestrates two steps:
 
-1. `bin/extract_tests.py` parses the exercise's `-tests.factor` file into
-   per-test metadata (`index`, `task_id`, `test_code`) and builds a
-   wrapped harness file that runs each test in its own `test-failures`
-   scope.
-2. Factor loads and runs the harness file, printing
-   `__BEGIN__`/`__PASS__`/`__FAIL__`/`__ERROR__`/`__END__` markers around
-   each test's output.
-3. `bin/assemble_results.py` reads the metadata and the marker stream,
-   truncates any captured output to 500 characters, and writes the final
-   `results.json`.
+1. `harness-builder` (a Factor vocab) parses the exercise's
+   `-tests.factor` file, extracts per-test metadata (`index`, `task_id`,
+   `test_code`), and builds a harness file that runs each test and writes
+   `results.json` directly via Factor's `json` vocab.
+2. Factor loads and runs the harness. If the harness completes, it writes
+   `results.json` itself. If Factor crashes (e.g. a load error),
+   `bin/run.sh` wraps the captured output as a top-level error.
 
-Output beyond 500 characters — per-test `output` and top-level `message`
-on load/parse failures — is truncated with a trailing
+Per-test `output` beyond 500 characters is truncated with a trailing
 `" [output truncated]"`.
 
 ## Concept exercises and `TASK:` markers
@@ -73,12 +69,7 @@ To run the fixtures under `tests/` and verify the runner's behaviour:
 
 `bin/test.sh` builds the Docker image, runs the runner against each
 fixture, and compares the generated `results.json` against the fixture's
-`expected_results.json` using `bin/compare_results.py`. Structural
-fields (`version`, `status`, per-test `name`/`test_code`/`task_id`/`status`)
-are compared exactly. `message` and `output` strings, which depend on
-Factor's own error formatting, are checked only for presence and
-non-emptiness — an expected value of `"<any non-empty>"` matches any
-non-blank string.
+`expected_results.json` using `diff`.
 
 ## Run the tests using Docker
 
