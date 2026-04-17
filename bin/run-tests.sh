@@ -6,10 +6,7 @@
 # Runs the runner locally (not in Docker); see bin/test.sh for the Docker
 # equivalent.
 #
-# Structural fields (version, status, per-test name/test_code/task_id/status)
-# must match exactly. message and output are compared via compare_results.py:
-# an expected value of "<any non-empty>" matches any non-blank string, so
-# Factor's variable error messages don't require byte-exact fixtures.
+# The emitted results.json is compared to expected_results.json using diff.
 
 set -eu
 
@@ -31,11 +28,11 @@ for test_dir in "${root_dir}"/tests/*/; do
     rm -f "${test_dir_path}/results.json"
     "${script_dir}/run.sh" "${slug}" "${test_dir_path}" "${test_dir_path}" >/dev/null 2>&1 || true
 
-    if python3 "${script_dir}/compare_results.py" \
-        "${test_dir_path}/expected_results.json" \
-        "${test_dir_path}/results.json"; then
+    echo "${fixture}: comparing results.json to expected_results.json"
+    if diff "${test_dir_path}/results.json" "${test_dir_path}/expected_results.json" >/dev/null; then
         echo "OK:   ${fixture}"
     else
+        diff "${test_dir_path}/results.json" "${test_dir_path}/expected_results.json" >&2
         echo "FAIL: ${fixture}"
         exit_code=1
     fi

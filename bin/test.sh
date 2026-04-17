@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 # Build the Docker image and run every fixture under tests/. Compares the
-# generated results.json against expected_results.json structurally —
-# message and output fields may vary (they come from Factor's own error
-# formatting), so this script only asserts that they are non-empty when
-# expected.
+# generated results.json against expected_results.json.
 #
 # Usage:
 #   bin/test.sh              # run every fixture
@@ -51,11 +48,11 @@ for fixture in "${fixtures[@]}"; do
         -v "${fixture_dir}:/output" \
         "${image}" "${slug}" /solution /output >/dev/null 2>&1 || true
 
-    if python3 "${script_dir}/compare_results.py" \
-        "${fixture_dir}/expected_results.json" \
-        "${fixture_dir}/results.json"; then
+    echo "${fixture}: comparing results.json to expected_results.json"
+    if diff "${fixture_dir}/results.json" "${fixture_dir}/expected_results.json" >/dev/null; then
         echo "OK:   ${fixture}"
     else
+        diff "${fixture_dir}/results.json" "${fixture_dir}/expected_results.json" >&2
         echo "FAIL: ${fixture}"
         fail_count=$((fail_count + 1))
     fi
