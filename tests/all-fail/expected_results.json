@@ -1,5 +1,5 @@
 {
   "version": 1,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }"
+  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }\n--> test failed!\n==== /opt/test-runner/tests/all-fail/all-fail/all-fail-tests.factor\n/opt/test-runner/tests/all-fail/all-fail/all-fail-tests.factor: 4\nUnit Test: { { \"hello\" } [ greet ] }\n=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
 }

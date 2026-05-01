@@ -1,5 +1,5 @@
 {
   "version": 1,
   "status": "fail",
-  "message": "Unit Test: { { 9 } [ 3 square ] }\n--> test failed!\nUnit Test: { { 16 } [ 4 square ] }\n--> test failed!\nUnit Test: { { 27 } [ 3 cube ] }\n--> test failed!\nUnit Test: { { 64 } [ 4 cube ] }"
+  "message": "Unit Test: { { 9 } [ 3 square ] }\n--> test failed!\nUnit Test: { { 16 } [ 4 square ] }\n--> test failed!\nUnit Test: { { 27 } [ 3 cube ] }\n--> test failed!\nUnit Test: { { 64 } [ 4 cube ] }\n--> test failed!\n==== /opt/test-runner/tests/concept-stub/concept-stub/concept-stub-tests.factor\n/opt/test-runner/tests/concept-stub/concept-stub/concept-stub-tests.factor: 5\nUnit Test: { { 9 } [ 3 square ] }\nunimplemented"
 }

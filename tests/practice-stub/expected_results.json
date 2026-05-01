@@ -1,5 +1,5 @@
 {
   "version": 1,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }"
+  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }\n--> test failed!\n==== /opt/test-runner/tests/practice-stub/practice-stub/practice-stub-tests.factor\n/opt/test-runner/tests/practice-stub/practice-stub/practice-stub-tests.factor: 4\nUnit Test: { { \"hello\" } [ greet ] }\nunimplemented"
 }
