@@ -108,8 +108,21 @@ parsed=$(printf '%s\n' "$raw_output" | awk "$AWK_JSON"'
         printf "{\"type\":\"failure\",\"line_no\":%d,\"message\":%s}\n",
             fail_line, json_str(body)
     }
-    BEGIN { state = "inline"; idx = 0 }
-    state == "inline" && /^Unit Test: / {
+    # Factor renders each test-word name into a title, e.g.:
+    #   unit-test            → "Unit Test:"
+    #   unit-test~           → "Unit Test~:"
+    #   unit-test-v~         → "Unit Test V~:"
+    #   long-unit-test       → "Long Unit Test:"
+    #   must-fail            → "Must Fail:"
+    #   must-fail-with       → "Must Fail With:"
+    #   must-not-fail        → "Must Not Fail:"
+    #   must-infer           → "Must Infer:"
+    #   must-infer-as        → "Must Infer As:"
+    BEGIN {
+        state = "inline"; idx = 0
+        header_re = "^(Unit Test|Unit Test~|Unit Test V~|Long Unit Test|Must Fail|Must Fail With|Must Not Fail|Must Infer|Must Infer As): "
+    }
+    state == "inline" && $0 ~ header_re {
         close_segment()
         idx++; seg_failed = 0; seg_n = 0; delete seg
         next

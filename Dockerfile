@@ -17,6 +17,27 @@ RUN rm -rf .git build vm src misc Factor.app \
     extra GNUmakefile Nmakefile LICENSE.txt README.md \
     build.sh build.cmd unmaintained
 
+# Prune basis subdirs that exercism tests cannot reach. Source files only —
+# the precompiled bytecode for these is in factor.image, which is unaffected.
+# - GUI and graphics: ui, opengl, cairo, gdk2/3/4, gtk2/3/4, gdk-pixbuf, gsk4,
+#   glib, gmodule, gobject, gio, graphene, atk, gobject-introspection, gir
+# - macOS-specific: cocoa, core-foundation, core-graphics, core-text
+# - Windows-specific: windows
+# - Other unused: xmode (syntax highlighting), game, farkup (markup)
+RUN cd basis && rm -rf \
+    atk cairo cocoa core-foundation core-graphics core-text \
+    farkup game gdk2 gdk3 gdk4 gdk-pixbuf gio gir glib gmodule \
+    gobject gobject-introspection graphene gsk4 gtk2 gtk3 gtk4 \
+    opengl ui windows xmode \
+    editors furnace help
+
+# Drop *-docs.factor — only used by Factor's interactive help browser.
+# *-tests.factor and tags.txt / summary.txt / authors.txt are kept: Factor's
+# vocab loader and `test` word reference them and removing them breaks
+# at least basis/binary-search at runtime.
+RUN find . -name '*-docs.factor' -delete
+
+
 FROM cgr.dev/chainguard/wolfi-base
 
 # Wolfi is glibc-based, so the Factor binary built on Debian above runs
