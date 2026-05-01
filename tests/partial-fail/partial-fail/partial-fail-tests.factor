@@ -1,8 +1,8 @@
-USING: exercism-tools partial-fail tools.test ;
+USING: exercism-tools io partial-fail prettyprint tools.test ;
 IN: partial-fail.tests
 
-{ "hello" } [ greet ] unit-test
+{ "hello" } [ "first call" print greet ] unit-test
 
 STOP-HERE
 
-{ "world" } [ greet ] unit-test
+{ "world" } [ 2 . greet ] unit-test

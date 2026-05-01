@@ -1,4 +1,4 @@
-USING: exercism-tools success tools.test ;
+USING: exercism-tools io prettyprint success tools.test ;
 IN: success.tests
 
-{ "hello" } [ greet ] unit-test
+{ "hello" } [ "calling greet" print greet ] unit-test

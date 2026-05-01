@@ -1,5 +1,5 @@
 {
   "version": 1,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\nUnit Test: { { \"world\" } [ greet ] }\n--> test failed!\n==== /opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor\n/opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor: 7\nUnit Test: { { \"world\" } [ greet ] }"
+  "message": "Unit Test: { { \"hello\" } [ \"first call\" print greet ] }\nfirst call\nUnit Test: { { \"world\" } [ 2 . greet ] }\n2\n--> test failed!\n==== /opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor\n/opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor: 7\nUnit Test: { { \"world\" } [ 2 . greet ] }"
 }
