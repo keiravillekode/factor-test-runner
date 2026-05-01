@@ -1,4 +1,52 @@
 {
-  "version": 1,
-  "status": "pass"
+  "version": 3,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ 42 } [ \"asking for the answer\" print number-result ] unit-test",
+      "task_id": 1,
+      "output": "asking for the answer"
+    },
+    {
+      "name": "Test 2",
+      "status": "pass",
+      "test_code": "{ \"hello\" } [ string-result dup . ] unit-test",
+      "task_id": 2,
+      "output": "\"hello\""
+    },
+    {
+      "name": "Test 3",
+      "status": "pass",
+      "test_code": "{ { 1 2 3 } } [ array-result ] unit-test",
+      "task_id": 3
+    },
+    {
+      "name": "Test 4",
+      "status": "pass",
+      "test_code": "{ V{ 1 2 3 } } [ \"vec coming up\" print vector-result ] unit-test",
+      "task_id": 4,
+      "output": "vec coming up"
+    },
+    {
+      "name": "Test 5",
+      "status": "pass",
+      "test_code": "{ HS{ \"a\" \"b\" \"c\" } } [ hashset-result ] unit-test",
+      "task_id": 5
+    },
+    {
+      "name": "Test 6",
+      "status": "pass",
+      "test_code": "{ H{ { \"a\" 1 } { \"b\" 2 } } } [ hashtable-result dup . ] unit-test",
+      "task_id": 6,
+      "output": "H{ { \"a\" 1 } { \"b\" 2 } }"
+    },
+    {
+      "name": "Test 7",
+      "status": "pass",
+      "test_code": "{ T{ point f 3 4 } } [ tuple-result ] unit-test",
+      "task_id": 7
+    }
+  ]
 }

@@ -1,5 +1,18 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }\n--> test failed!\n==== /opt/test-runner/tests/all-fail/all-fail/all-fail-tests.factor\n/opt/test-runner/tests/all-fail/all-fail/all-fail-tests.factor: 4\nUnit Test: { { \"hello\" } [ greet ] }\n=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "fail",
+      "test_code": "{ \"hello\" } [ greet ] unit-test",
+      "message": "=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
+    },
+    {
+      "name": "Test 2",
+      "status": "fail",
+      "test_code": "{ \"world\" } [ greet ] unit-test",
+      "message": "=== Expected:\n\"world\"\n=== Got:\n\"wrong\""
+    }
+  ]
 }

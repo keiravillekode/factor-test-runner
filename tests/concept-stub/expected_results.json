@@ -1,5 +1,34 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { 9 } [ 3 square ] }\n--> test failed!\nUnit Test: { { 16 } [ 4 square ] }\n--> test failed!\nUnit Test: { { 27 } [ 3 cube ] }\n--> test failed!\nUnit Test: { { 64 } [ 4 cube ] }\n--> test failed!\n==== /opt/test-runner/tests/concept-stub/concept-stub/concept-stub-tests.factor\n/opt/test-runner/tests/concept-stub/concept-stub/concept-stub-tests.factor: 5\nUnit Test: { { 9 } [ 3 square ] }\nunimplemented"
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "error",
+      "test_code": "{ 9 } [ 3 square ] unit-test",
+      "task_id": 1,
+      "message": "unimplemented"
+    },
+    {
+      "name": "Test 2",
+      "status": "error",
+      "test_code": "{ 16 } [ 4 square ] unit-test",
+      "task_id": 1,
+      "message": "unimplemented"
+    },
+    {
+      "name": "Test 3",
+      "status": "error",
+      "test_code": "{ 27 } [ 3 cube ] unit-test",
+      "task_id": 2,
+      "message": "unimplemented"
+    },
+    {
+      "name": "Test 4",
+      "status": "error",
+      "test_code": "{ 64 } [ 4 cube ] unit-test",
+      "task_id": 2,
+      "message": "unimplemented"
+    }
+  ]
 }

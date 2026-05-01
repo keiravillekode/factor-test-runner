@@ -1,5 +1,19 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ \"first call\" print greet ] }\nfirst call\nUnit Test: { { \"world\" } [ 2 . greet ] }\n2\n--> test failed!\n==== /opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor\n/opt/test-runner/tests/partial-fail/partial-fail/partial-fail-tests.factor: 7\nUnit Test: { { \"world\" } [ 2 . greet ] }"
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ \"hello\" } [ \"first call\" print greet ] unit-test",
+      "output": "first call"
+    },
+    {
+      "name": "Test 2",
+      "status": "fail",
+      "test_code": "{ \"world\" } [ 2 . greet ] unit-test",
+      "message": "=== Expected:\n\"world\"\n=== Got:\n\"hello\"",
+      "output": "2"
+    }
+  ]
 }

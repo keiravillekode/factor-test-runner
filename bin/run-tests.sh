@@ -13,27 +13,19 @@
 
 exit_code=0
 
-# Iterate over all test directories
+# Iterate over all test directories. bin/run.py copies each fixture to its own
+# temp dir before running Factor, so the committed fixture files are not
+# mutated. results.json is written to the fixture dir for post-run
+# investigation (gitignored).
 for test_dir in tests/*; do
     test_dir_name=$(basename "${test_dir}")
     test_dir_path=$(realpath "${test_dir}")
 
-    # Copy the fixture to a fresh temp dir for the runner to operate on, so
-    # bin/run.sh's in-place `sed -i '/STOP-HERE/d'` does not mutate the
-    # committed fixture files. results.json is still written to the fixture
-    # dir for post-run investigation (gitignored).
-    tmp_dir=$(mktemp -d -t "factor-test-runner-${test_dir_name}-XXXXX")
-    file="results.json"
-    expected_file="expected_${file}"
-    if ! (
-        trap 'rm -rf "${tmp_dir}"' EXIT
-        cp -r "${test_dir_path}/." "${tmp_dir}"
-        bin/run.sh "${test_dir_name}" "${tmp_dir}" "${test_dir_path}"
-        # Normalize paths in results to match Docker environment
-        sed -i "s~${tmp_dir}~/opt/test-runner/tests/${test_dir_name}~g" "${test_dir_path}/${file}"
-        echo "${test_dir_name}: comparing ${file} to ${expected_file}"
-        diff "${test_dir_path}/${file}" "${test_dir_path}/${expected_file}"
-    ); then
+    bin/run.sh "${test_dir_name}" "${test_dir_path}" "${test_dir_path}"
+
+    expected_file="expected_results.json"
+    echo "${test_dir_name}: comparing results.json to ${expected_file}"
+    if ! diff "${test_dir_path}/results.json" "${test_dir_path}/${expected_file}"; then
         exit_code=1
     fi
 done

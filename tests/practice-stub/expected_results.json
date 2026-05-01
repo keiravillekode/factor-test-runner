@@ -1,5 +1,18 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\n--> test failed!\nUnit Test: { { \"world\" } [ greet ] }\n--> test failed!\n==== /opt/test-runner/tests/practice-stub/practice-stub/practice-stub-tests.factor\n/opt/test-runner/tests/practice-stub/practice-stub/practice-stub-tests.factor: 4\nUnit Test: { { \"hello\" } [ greet ] }\nunimplemented"
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "error",
+      "test_code": "{ \"hello\" } [ greet ] unit-test",
+      "message": "unimplemented"
+    },
+    {
+      "name": "Test 2",
+      "status": "error",
+      "test_code": "{ \"world\" } [ greet ] unit-test",
+      "message": "unimplemented"
+    }
+  ]
 }

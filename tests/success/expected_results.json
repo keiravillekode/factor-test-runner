@@ -1,4 +1,11 @@
 {
-  "version": 1,
-  "status": "pass"
+  "version": 3,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ \"hello\" } [ \"calling greet\" print greet ] unit-test"
+    }
+  ]
 }
