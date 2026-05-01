@@ -20,7 +20,7 @@ RUN rm -rf .git build vm src misc Factor.app \
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash coreutils libstdc++6 python3-minimal \
+    bash coreutils gawk jq libstdc++6 sed \
     && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
        /usr/share/zoneinfo /usr/share/perl5 /var/lib/dpkg /var/cache
 
