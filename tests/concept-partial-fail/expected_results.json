@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "status": "fail",
+  "message": "Unit Test: { { 9 } [ 3 square ] }\nUnit Test: { { 16 } [ 4 square ] }\nUnit Test: { { 27 } [ 3 cube ] }\n--> test failed!\nUnit Test: { { 64 } [ 4 cube ] }"
+}
