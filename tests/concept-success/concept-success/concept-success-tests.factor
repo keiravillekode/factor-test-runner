@@ -23,3 +23,10 @@ TASK: 6 hashtables
 
 TASK: 7 tuples
 { T{ point f 3 4 } } [ tuple-result ] unit-test
+
+TASK: 8 locals
+{ 25 } [ locals-result ] unit-test
+
+TASK: 9 curry compose fry
+{ { 11 12 13 } } [ fry-result ] unit-test
+{ 9 } [ curry-compose-result ] unit-test

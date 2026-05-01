@@ -1,0 +1,100 @@
+{
+  "version": 3,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ 35 } [ { 12 8 15 } weigh-crate ] unit-test",
+      "task_id": 1
+    },
+    {
+      "name": "Test 2",
+      "status": "pass",
+      "test_code": "{ 0 }  [ { } weigh-crate ] unit-test",
+      "task_id": 1
+    },
+    {
+      "name": "Test 3",
+      "status": "pass",
+      "test_code": "{ 7 }  [ { 7 } weigh-crate ] unit-test",
+      "task_id": 1
+    },
+    {
+      "name": "Test 4",
+      "status": "pass",
+      "test_code": "{ { 10 10 12 } } [ { { 5 5 } { 10 } { 3 4 5 } } weigh-all ] unit-test",
+      "task_id": 2
+    },
+    {
+      "name": "Test 5",
+      "status": "pass",
+      "test_code": "{ { } }          [ { } weigh-all ] unit-test",
+      "task_id": 2
+    },
+    {
+      "name": "Test 6",
+      "status": "pass",
+      "test_code": "{ { 35 } }       [ { { 12 8 15 } } weigh-all ] unit-test",
+      "task_id": 2
+    },
+    {
+      "name": "Test 7",
+      "status": "pass",
+      "test_code": "{ 0 } [ <crane> tonnage>> ] unit-test",
+      "task_id": 3
+    },
+    {
+      "name": "Test 8",
+      "status": "pass",
+      "test_code": "] unit-test",
+      "task_id": 3,
+      "output": "    { 5 0 }\n    [\n        <crane> dup 5 swap hoist-crate\n        tonnage>> <crane> tonnage>>\n    ]\n}"
+    },
+    {
+      "name": "Test 9",
+      "status": "pass",
+      "test_code": "{ 35 } [ <crane> dup 35 swap hoist-crate tonnage>> ] unit-test",
+      "task_id": 4
+    },
+    {
+      "name": "Test 10",
+      "status": "pass",
+      "test_code": "] unit-test",
+      "task_id": 4,
+      "output": "    { 52 }\n    [\n        <crane> dup 35 swap hoist-crate dup 17 swap hoist-crate\n        tonnage>>\n    ]\n}"
+    },
+    {
+      "name": "Test 11",
+      "status": "pass",
+      "test_code": "{ 0 }  [ <crane> crane-tonnage ] unit-test",
+      "task_id": 5
+    },
+    {
+      "name": "Test 12",
+      "status": "pass",
+      "test_code": "{ 35 } [ <crane> dup 35 swap hoist-crate crane-tonnage ] unit-test",
+      "task_id": 5
+    },
+    {
+      "name": "Test 13",
+      "status": "pass",
+      "test_code": "] unit-test",
+      "task_id": 6,
+      "output": "    { 32 }\n    [\n        <crane> { { 5 5 } { 10 } { 3 4 5 } } over load-cargo\n        crane-tonnage\n    ]\n}"
+    },
+    {
+      "name": "Test 14",
+      "status": "pass",
+      "test_code": "] unit-test",
+      "task_id": 6
+    },
+    {
+      "name": "Test 15",
+      "status": "pass",
+      "test_code": "] unit-test",
+      "task_id": 6,
+      "output": "    { 5050 }\n    [\n        <crane> 100 <iota> [ 1 + 1array ] map over load-cargo\n        crane-tonnage\n    ]\n}"
+    }
+  ]
+}

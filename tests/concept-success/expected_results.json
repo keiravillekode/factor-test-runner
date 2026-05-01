@@ -47,6 +47,24 @@
       "status": "pass",
       "test_code": "{ T{ point f 3 4 } } [ tuple-result ] unit-test",
       "task_id": 7
+    },
+    {
+      "name": "Test 8",
+      "status": "pass",
+      "test_code": "{ 25 } [ locals-result ] unit-test",
+      "task_id": 8
+    },
+    {
+      "name": "Test 9",
+      "status": "pass",
+      "test_code": "{ { 11 12 13 } } [ fry-result ] unit-test",
+      "task_id": 9
+    },
+    {
+      "name": "Test 10",
+      "status": "pass",
+      "test_code": "{ 9 } [ curry-compose-result ] unit-test",
+      "task_id": 9
     }
   ]
 }
