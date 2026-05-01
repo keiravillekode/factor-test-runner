@@ -17,12 +17,12 @@ RUN rm -rf .git build vm src misc Factor.app \
     extra GNUmakefile Nmakefile LICENSE.txt README.md \
     build.sh build.cmd unmaintained
 
-FROM debian:bookworm-slim
+FROM cgr.dev/chainguard/wolfi-base
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash coreutils gawk jq libstdc++6 sed \
-    && rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man \
-       /usr/share/zoneinfo /usr/share/perl5 /var/lib/dpkg /var/cache
+# Wolfi is glibc-based, so the Factor binary built on Debian above runs
+# without a compat shim. bash for run.sh; gawk + jq + sed for the parser;
+# coreutils for realpath / mktemp.
+RUN apk add --no-cache bash coreutils gawk jq libstdc++ sed
 
 COPY --from=builder /opt/factor /opt/factor
 ENV PATH="/opt/factor:${PATH}" \
