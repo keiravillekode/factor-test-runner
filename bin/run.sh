@@ -41,11 +41,14 @@ if [[ ! -f "$test_file" ]]; then
     exit 0
 fi
 
-# Copy the fixture to a fresh temp dir so `sed -i` does not mutate the source.
+# Copy the fixture to a fresh temp dir so the rewrite below does not mutate
+# the source.
 tmp_dir=$(mktemp -d -t "factor-runner-${slug}-XXXXX")
 trap 'rm -rf "$tmp_dir"' EXIT
 cp -r "${solution_dir}/." "$tmp_dir"
-sed -i '/^STOP-HERE$/d' "${tmp_dir}/${slug}/${slug}-tests.factor"
+stripped_tests="${tmp_dir}/${slug}/${slug}-tests.factor"
+awk '!/^STOP-HERE$/' "$stripped_tests" > "${stripped_tests}.new"
+mv "${stripped_tests}.new" "$stripped_tests"
 
 # Run Factor; capture combined stdout/stderr.
 set +e
@@ -165,7 +168,7 @@ failures=$(printf '%s\n' "$parsed" | awk '/"type":"failure"/' || true)
 # 3. If no segments emitted, surface a top-level error from the raw output.
 if [[ -z "$segments" ]]; then
     cleaned=$(printf '%s\n' "$raw_output" | awk '/^\([UO]\) /{exit} {print}' \
-        | sed -e '/^$/N;/\n$/D')
+        | awk 'NF { print; blank = 0; next } !blank { print; blank = 1 }')
     if [[ -z "$cleaned" ]]; then cleaned="No tests were executed"; fi
     jq -n --arg msg "$cleaned" '{version:3, status:"error", message:$msg}' >"$results_file"
     exit 0
