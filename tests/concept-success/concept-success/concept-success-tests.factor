@@ -1,5 +1,4 @@
-USING: concept-success exercism-tools io kernel prettyprint
-       tools.test unicode ;
+USING: concept-success exercism-tools io kernel prettyprint tools.test ;
 IN: concept-success.tests
 
 TASK: 1 numbers
