@@ -1,0 +1,5 @@
+{
+  "version": 3,
+  "status": "error",
+  "message": "/opt/test-runner/tests/concept-not-parsing/concept-not-parsing/concept-not-parsing.factor\n\n6: : cube ( n -- n^3 ) ?!?! ;\n                           ^\nNo word named '?!?!' found in current vocabulary search path"
+}

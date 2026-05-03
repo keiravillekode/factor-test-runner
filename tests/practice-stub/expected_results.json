@@ -4,15 +4,15 @@
   "tests": [
     {
       "name": "Test 1",
-      "status": "fail",
+      "status": "error",
       "test_code": "{ \"hello\" } [ greet ] unit-test",
-      "message": "=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
+      "message": "unimplemented"
     },
     {
       "name": "Test 2",
-      "status": "fail",
+      "status": "error",
       "test_code": "{ \"world\" } [ greet ] unit-test",
-      "message": "=== Expected:\n\"world\"\n=== Got:\n\"wrong\""
+      "message": "unimplemented"
     }
   ]
 }

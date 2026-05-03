@@ -1,5 +1,19 @@
 {
-  "version": 1,
+  "version": 3,
   "status": "fail",
-  "message": "Unit Test: { { \"hello\" } [ greet ] }\nUnit Test: { { \"world\" } [ greet ] }"
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ \"hello\" } [ \"first call\" print greet ] unit-test",
+      "output": "first call"
+    },
+    {
+      "name": "Test 2",
+      "status": "fail",
+      "test_code": "{ \"world\" } [ 2 . greet ] unit-test",
+      "message": "=== Expected:\n\"world\"\n=== Got:\n\"hello\"",
+      "output": "2"
+    }
+  ]
 }

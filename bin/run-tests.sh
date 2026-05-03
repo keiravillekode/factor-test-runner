@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Synopsis:
-# Test the test runner by running it against a predefined set of solutions 
+# Test the test runner by running it against a predefined set of solutions
 # with an expected output.
 
 # Output:
@@ -13,20 +13,19 @@
 
 exit_code=0
 
-# Iterate over all test directories
+# Iterate over all test directories. bin/run.py copies each fixture to its own
+# temp dir before running Factor, so the committed fixture files are not
+# mutated. results.json is written to the fixture dir for post-run
+# investigation (gitignored).
 for test_dir in tests/*; do
     test_dir_name=$(basename "${test_dir}")
     test_dir_path=$(realpath "${test_dir}")
 
     bin/run.sh "${test_dir_name}" "${test_dir_path}" "${test_dir_path}"
 
-    # Normalize paths in results to match Docker environment
-    file="results.json"
-    sed -i "s~${test_dir_path}~/opt/test-runner/tests/${test_dir_name}~g" "${test_dir_path}/${file}"
-    expected_file="expected_${file}"
-    echo "${test_dir_name}: comparing ${file} to ${expected_file}"
-
-    if ! diff "${test_dir_path}/${file}" "${test_dir_path}/${expected_file}"; then
+    expected_file="expected_results.json"
+    echo "${test_dir_name}: comparing results.json to ${expected_file}"
+    if ! diff "${test_dir_path}/results.json" "${test_dir_path}/${expected_file}"; then
         exit_code=1
     fi
 done

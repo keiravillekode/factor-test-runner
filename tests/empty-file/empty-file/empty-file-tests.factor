@@ -1,2 +1,2 @@
-USING: empty-file tools.test ;
+USING: empty-file exercism-tools tools.test ;
 { "hello" } [ greet ] unit-test

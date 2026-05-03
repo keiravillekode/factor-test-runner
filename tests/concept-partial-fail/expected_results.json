@@ -1,0 +1,35 @@
+{
+  "version": 3,
+  "status": "fail",
+  "tests": [
+    {
+      "name": "Test 1",
+      "status": "pass",
+      "test_code": "{ 9 } [ \"squaring 3\" print 3 square ] unit-test",
+      "task_id": 1,
+      "output": "squaring 3"
+    },
+    {
+      "name": "Test 2",
+      "status": "pass",
+      "test_code": "{ 16 } [ 4 square dup . ] unit-test",
+      "task_id": 1,
+      "output": "16"
+    },
+    {
+      "name": "Test 3",
+      "status": "fail",
+      "test_code": "{ 27 } [ \"cubing 3\" print 3 cube ] unit-test",
+      "task_id": 2,
+      "message": "=== Expected:\n27\n=== Got:\n12",
+      "output": "cubing 3"
+    },
+    {
+      "name": "Test 4",
+      "status": "fail",
+      "test_code": "{ 64 } [ 4 cube ] unit-test",
+      "task_id": 2,
+      "message": "=== Expected:\n64\n=== Got:\n20"
+    }
+  ]
+}

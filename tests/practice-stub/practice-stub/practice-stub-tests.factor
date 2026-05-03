@@ -1,5 +1,5 @@
-USING: all-fail exercism-tools tools.test ;
-IN: all-fail.tests
+USING: exercism-tools practice-stub tools.test ;
+IN: practice-stub.tests
 
 { "hello" } [ greet ] unit-test
 
