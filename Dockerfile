@@ -18,7 +18,18 @@ RUN git clone https://github.com/factor/factor.git && \
     cd factor && \
     git checkout ${FACTOR_COMMIT}
 WORKDIR /opt/factor
-RUN ./build.sh update
+
+# Bootstrap a headless image: drop the GUI (ui, ui.tools), the in-image help
+# system (help, handbook), and the dev-tools component (tools) from the bootstrap
+# component set.
+ARG FACTOR_EXCLUDE="ui ui.tools help handbook tools"
+RUN sed -i 's#-i="\$BOOT_IMAGE"#-i="$BOOT_IMAGE" -exclude="'"${FACTOR_EXCLUDE}"'"#' build.sh
+
+# build the pinned commit with no git pull.
+RUN ./build.sh net-bootstrap
+
+# Precompile tools.test AND the common exercise vocabs into factor.image, then re-save it.
+RUN ./factor -e='USING: accessors arrays ascii assocs calendar calendar.english combinators combinators.short-circuit command-line concurrency.combinators concurrency.locks continuations debugger deques destructors dlists formatting fry generic grouping hash-sets hashtables io io.encodings.utf8 io.files io.streams.string kernel lexer locals macros make math math.bitwise math.combinatorics math.constants math.functions math.order math.parser math.primes math.statistics namespaces prettyprint.config quotations random random.mersenne-twister ranges regexp sequences sets sorting source-files.errors.debugger splitting splitting.monotonic strings system tools.test typed unicode vectors vocabs vocabs.loader memory ; save'
 
 # Remove files not needed at runtime
 RUN rm -rf .git build vm src misc Factor.app \
@@ -52,7 +63,7 @@ RUN rm -rf .git build vm src misc Factor.app \
 #   porter-stemmer, regexp, simple-tokenizer, tr, wrap
 # - Editor / interactive only: documents, inspector, listener, see, xdg
 # - Other unused: xmode (syntax highlighting), game, farkup (markup),
-#   calendar, colors, delegate, escape-strings, etc-hosts, eval, interpolate,
+#   colors, delegate, escape-strings, etc-hosts, eval, interpolate,
 #   ip-parser, logging, memoize, method-chains, mirrors, models, nmake, ntp,
 #   protocols, quoting, refs, retries, roman, simple-flat-file, system-info,
 #   timers, typed, uuid, validators
@@ -76,11 +87,11 @@ RUN cd basis && rm -rf \
     unrolled-lists vlists \
     globs lcs match peg porter-stemmer regexp simple-tokenizer tr wrap \
     documents inspector listener see xdg \
-    calendar colors delegate escape-strings etc-hosts eval interpolate \
+    colors delegate escape-strings etc-hosts eval interpolate \
     ip-parser logging memoize method-chains mirrors models nmake ntp \
     protocols quoting refs retries roman simple-flat-file system-info \
     timers typed uuid validators \
-    bootstrap environment persistent random
+    bootstrap environment persistent
 
 # Asian and rare encodings: only utf8 / latin1 / strict are kept (everything
 # bundled streams use). 8-bit is the multi-codepage non-utf umbrella.

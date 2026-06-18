@@ -7,7 +7,7 @@ TASK: 1 numbers
 STOP-HERE
 
 TASK: 2 strings
-{ "hello" } [ string-result dup . ] unit-test
+{ "June" } [ string-result dup . ] unit-test
 
 TASK: 3 arrays
 { { 1 2 3 } } [ array-result ] unit-test

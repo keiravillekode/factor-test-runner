@@ -12,9 +12,9 @@
     {
       "name": "Test 2",
       "status": "pass",
-      "test_code": "{ \"hello\" } [ string-result dup . ] unit-test",
+      "test_code": "{ \"June\" } [ string-result dup . ] unit-test",
       "task_id": 2,
-      "output": "\"hello\""
+      "output": "\"June\""
     },
     {
       "name": "Test 3",

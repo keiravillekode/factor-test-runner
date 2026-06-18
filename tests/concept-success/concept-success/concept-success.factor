@@ -1,12 +1,12 @@
-USING: accessors combinators fry hash-sets hashtables kernel
-       locals math sequences vectors ;
+USING: accessors calendar.english combinators fry hash-sets hashtables
+       kernel locals math sequences vectors ;
 IN: concept-success
 
 TUPLE: point x y ;
 
 : number-result ( -- n ) 42 ;
 
-: string-result ( -- s ) "hello" ;
+: string-result ( -- s ) 6 month-name ;
 
 : array-result ( -- arr ) { 1 2 3 } ;
 

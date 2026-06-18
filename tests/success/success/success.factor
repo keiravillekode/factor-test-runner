@@ -1,4 +1,4 @@
-USING: kernel ;
+USING: formatting kernel ;
 IN: success
 
-: greet ( -- str ) "hello" ;
+: greet ( -- str ) "h" "%sello" sprintf ;
