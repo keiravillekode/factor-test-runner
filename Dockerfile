@@ -29,7 +29,7 @@ RUN sed -i 's#-i="\$BOOT_IMAGE"#-i="$BOOT_IMAGE" -exclude="'"${FACTOR_EXCLUDE}"'
 RUN ./build.sh net-bootstrap
 
 # Precompile tools.test AND the common exercise vocabs into factor.image, then re-save it.
-RUN ./factor -e='USING: accessors arrays ascii assocs calendar calendar.english combinators combinators.short-circuit command-line concurrency.combinators concurrency.locks continuations debugger deques destructors dlists formatting fry generic grouping hash-sets hashtables io io.encodings.utf8 io.files io.streams.string kernel lexer locals macros make math math.bitwise math.combinatorics math.constants math.functions math.order math.parser math.primes math.statistics namespaces prettyprint.config quotations random random.mersenne-twister ranges regexp sequences sets sorting source-files.errors.debugger splitting splitting.monotonic strings system tools.test typed unicode vectors vocabs vocabs.loader memory ; save'
+RUN ./factor -e='USING: accessors arrays ascii assocs bit-arrays calendar calendar.english combinators combinators.short-circuit command-line concurrency.combinators concurrency.locks continuations debugger deques destructors disjoint-sets dlists formatting fry generic grouping hash-sets hashtables heaps io io.encodings.utf8 io.files io.streams.string kernel lexer locals macros make math math.bitwise math.combinatorics math.constants math.functions math.order math.parser math.primes math.statistics namespaces prettyprint.config quotations random random.mersenne-twister ranges regexp sequences sets sorting source-files.errors.debugger splitting splitting.monotonic strings system tools.test tr typed unicode vectors vocabs vocabs.loader memory ; save'
 
 # Remove files not needed at runtime
 RUN rm -rf .git build vm src misc Factor.app \
@@ -37,61 +37,75 @@ RUN rm -rf .git build vm src misc Factor.app \
     extra GNUmakefile Nmakefile LICENSE.txt README.md \
     build.sh build.cmd unmaintained
 
-# Prune basis subdirs that exercism tests cannot reach. Source files only —
-# the precompiled bytecode for these is in factor.image, which is unaffected.
-# - GUI and graphics: ui, opengl, cairo, gdk2/3/4, gtk2/3/4, gdk-pixbuf, gsk4,
-#   glib, gmodule, gobject, gio, graphene, atk, gobject-introspection, gir,
-#   pango, x11, fonts, images
-# - macOS-specific: cocoa, core-foundation, core-graphics, core-text, iokit
-# - Windows-specific: windows
-# - Linux-specific: linux
-# - Networking, RPC, web: dns, ftp, html, http, mime, oauth1, oauth2, openssl,
-#   resolv-conf, smtp, syndication, urls, webbrowser, xml, xml-rpc
-# - Data formats: cbor, csv, ini-file, json, msgpack, pack, quoted-printable,
-#   serialize, toml, uu
-# - Persistence / db: couchdb, db
-# - Encoding / hashing / compression: base16, base24, base32, base36, base45,
-#   base58, base62, base64, base85, base91, base92, checksums, compression,
-#   crypto, hex-strings
-# - Specialised data structures with no exercise use: biassocs, bit-arrays,
-#   bit-sets, bit-vectors, bitstreams, bloom-filters, boxes, circular,
-#   columns, cuckoo-filters, disjoint-sets, dlists, heaps, interval-maps,
-#   interval-sets, lazy, linked-assocs, linked-sets, lists, named-tuples,
-#   nibble-arrays, reservoir-sampling, search-deques, specialized-arrays,
-#   specialized-vectors, suffix-arrays, tuple-arrays, unrolled-lists, vlists
-# - Pattern, parsing, text utilities: globs, lcs, match, peg,
-#   porter-stemmer, regexp, simple-tokenizer, tr, wrap
-# - Editor / interactive only: documents, inspector, listener, see, xdg
-# - Other unused: xmode (syntax highlighting), game, farkup (markup),
-#   colors, delegate, escape-strings, etc-hosts, eval, interpolate,
-#   ip-parser, logging, memoize, method-chains, mirrors, models, nmake, ntp,
-#   protocols, quoting, refs, retries, roman, simple-flat-file, system-info,
-#   timers, typed, uuid, validators
+# Prune basis subdirs that exercism tests cannot reach, one category per rm so
+# each vocab is named exactly once. Source files only — any bytecode already in
+# factor.image is unaffected. A few pruned vocabs (bit-arrays, disjoint-sets,
+# heaps, tr, plus regexp, dlists, typed) ARE used by exercises, but they are
+# precompiled into factor.image at the step above, so deleting their source
+# here is safe — they load from the image. interpolate, search-deques,
+# lcs, lists and lazy are deliberately absent: no exemplar needs them, but a
+# fluent solver might reach for them, and their source (~20 KB, no extra deps)
+# is kept so it compiles on demand at runtime.
+
+# GUI and graphics
 RUN cd basis && rm -rf \
-    atk cairo cocoa core-foundation core-graphics core-text fonts \
-    farkup game gdk2 gdk3 gdk4 gdk-pixbuf gio gir glib gmodule \
-    gobject gobject-introspection graphene gsk4 gtk2 gtk3 gtk4 \
-    images iokit linux opengl pango ui windows x11 xmode \
-    editors furnace help \
-    dns ftp html http mime oauth1 oauth2 openssl resolv-conf smtp \
-    syndication urls webbrowser xml xml-rpc \
-    cbor csv ini-file json msgpack pack quoted-printable serialize toml uu \
-    couchdb db \
+    atk cairo fonts gdk-pixbuf gdk2 gdk3 gdk4 gio gir glib gmodule gobject \
+    gobject-introspection graphene gsk4 gtk2 gtk3 gtk4 images opengl pango \
+    ui x11
+
+# macOS-specific
+RUN cd basis && rm -rf cocoa core-foundation core-graphics core-text iokit
+
+# Windows-specific
+RUN cd basis && rm -rf windows
+
+# Linux-specific
+RUN cd basis && rm -rf linux
+
+# Networking, RPC, web
+RUN cd basis && rm -rf \
+    dns ftp furnace html http mime oauth1 oauth2 openssl resolv-conf smtp \
+    syndication urls webbrowser xml xml-rpc
+
+# Data formats
+RUN cd basis && rm -rf \
+    cbor csv ini-file json msgpack pack quoted-printable serialize toml uu
+
+# Persistence / db
+RUN cd basis && rm -rf couchdb db
+
+# Encoding / hashing / compression
+RUN cd basis && rm -rf \
     base16 base24 base32 base36 base45 base58 base62 base64 base85 base91 \
-    base92 checksums compression crypto hex-strings \
+    base92 checksums compression crypto hex-strings
+
+# Specialised data structures (bit-arrays, disjoint-sets, heaps, dlists are
+# precompiled above, so pruning their source here is safe)
+RUN cd basis && rm -rf \
     biassocs bit-arrays bit-sets bit-vectors bitstreams bloom-filters boxes \
-    circular columns cuckoo-filters disjoint-sets dlists heaps \
-    interval-maps interval-sets lazy linked-assocs linked-sets lists \
-    named-tuples nibble-arrays reservoir-sampling search-deques \
-    specialized-arrays specialized-vectors suffix-arrays tuple-arrays \
-    unrolled-lists vlists \
-    globs lcs match peg porter-stemmer regexp simple-tokenizer tr wrap \
-    documents inspector listener see xdg \
-    colors delegate escape-strings etc-hosts eval interpolate \
-    ip-parser logging memoize method-chains mirrors models nmake ntp \
-    protocols quoting refs retries roman simple-flat-file system-info \
-    timers typed uuid validators \
-    bootstrap environment persistent
+    circular columns cuckoo-filters disjoint-sets dlists heaps interval-maps \
+    interval-sets linked-assocs linked-sets named-tuples nibble-arrays \
+    reservoir-sampling specialized-arrays specialized-vectors suffix-arrays \
+    tuple-arrays unrolled-lists vlists
+
+# Pattern, parsing, text utilities (regexp and tr are precompiled above)
+RUN cd basis && rm -rf \
+    globs match peg porter-stemmer regexp simple-tokenizer tr wrap
+
+# Editor / interactive only
+RUN cd basis && rm -rf documents editors help inspector listener see xdg
+
+# Other not needed at runtime. memoize here is basis/memoize (the memoize.syntax
+# vocab); the canonical memoize and MEMO: live in core and are untouched. typed
+# is precompiled above.
+RUN cd basis && rm -rf \
+    colors delegate escape-strings etc-hosts eval farkup game ip-parser \
+    logging memoize method-chains mirrors models nmake ntp protocols quoting \
+    refs retries roman simple-flat-file system-info timers typed uuid \
+    validators xmode
+
+# Bootstrap-only components
+RUN cd basis && rm -rf bootstrap environment persistent
 
 # Asian and rare encodings: only utf8 / latin1 / strict are kept (everything
 # bundled streams use). 8-bit is the multi-codepage non-utf umbrella.
