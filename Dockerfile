@@ -19,6 +19,10 @@ RUN git clone https://github.com/factor/factor.git && \
     git checkout ${FACTOR_COMMIT}
 WORKDIR /opt/factor
 
+# Patch extra/shuffle to drop the dependency on help / help.markup (for $shuffle docs)
+COPY patches/shuffle-drop-help.patch /tmp/shuffle-drop-help.patch
+RUN git apply /tmp/shuffle-drop-help.patch
+
 # Bootstrap a headless image: drop the GUI (ui, ui.tools), the in-image help
 # system (help, handbook), and the dev-tools component (tools) from the bootstrap
 # component set.
@@ -29,13 +33,21 @@ RUN sed -i 's#-i="\$BOOT_IMAGE"#-i="$BOOT_IMAGE" -exclude="'"${FACTOR_EXCLUDE}"'
 RUN ./build.sh net-bootstrap
 
 # Precompile tools.test AND the common exercise vocabs into factor.image, then re-save it.
-RUN ./factor -e='USING: accessors arrays ascii assocs bit-arrays calendar calendar.english combinators combinators.short-circuit command-line concurrency.combinators concurrency.locks continuations debugger deques destructors disjoint-sets dlists formatting fry generic grouping hash-sets hashtables heaps io io.encodings.utf8 io.files io.streams.string kernel lexer locals macros make math math.bitwise math.combinatorics math.constants math.functions math.order math.parser math.primes math.statistics namespaces prettyprint.config quotations random random.mersenne-twister ranges regexp sequences sets sorting source-files.errors.debugger splitting splitting.monotonic strings system tools.test tr typed unicode vectors vocabs vocabs.loader memory ; save'
+RUN ./factor -e='USING: accessors arrays ascii assocs bit-arrays calendar calendar.english circular combinators combinators.short-circuit command-line concurrency.combinators concurrency.locks continuations debugger deques destructors disjoint-sets dlists formatting fry generic grouping hash-sets hashtables heaps infix io io.encodings.utf8 io.files io.streams.string kernel lexer locals macros make math math.bitwise math.combinatorics math.constants math.functions math.order math.parser math.primes math.statistics namespaces pair-rocket prettyprint.config quotations qw random random.mersenne-twister ranges regexp sequences sequences.repeating sets sorting source-files.errors.debugger splitting splitting.monotonic strings system tools.test tr typed unicode vectors vocabs vocabs.loader memory ; save'
 
 # Remove files not needed at runtime
 RUN rm -rf .git build vm src misc Factor.app \
     factor.image.fresh boot.*.image libfactor.a libfactor-ffi-test.so \
-    extra GNUmakefile Nmakefile LICENSE.txt README.md \
+    GNUmakefile Nmakefile LICENSE.txt README.md \
     build.sh build.cmd unmaintained
+
+# Keep only the extra/ source that sequences.extras needs to compile on demand:
+# itself plus extra/assocs.extras and extra/shuffle.
+RUN find extra -mindepth 1 -maxdepth 1 \
+    ! -name sequences ! -name assocs ! -name shuffle \
+    -exec rm -rf {} + && \
+    find extra/sequences -mindepth 1 -maxdepth 1 ! -name extras -exec rm -rf {} + && \
+    find extra/assocs    -mindepth 1 -maxdepth 1 ! -name extras -exec rm -rf {} +
 
 # Prune basis subdirs that exercism tests cannot reach, one category per rm so
 # each vocab is named exactly once. Source files only — any bytecode already in
@@ -79,8 +91,8 @@ RUN cd basis && rm -rf \
     base16 base24 base32 base36 base45 base58 base62 base64 base85 base91 \
     base92 checksums compression crypto hex-strings
 
-# Specialised data structures (bit-arrays, disjoint-sets, heaps, dlists are
-# precompiled above, so pruning their source here is safe)
+# Specialised data structures (bit-arrays, disjoint-sets, heaps, dlists, circular
+# are precompiled above, so pruning their source here is safe)
 RUN cd basis && rm -rf \
     biassocs bit-arrays bit-sets bit-vectors bitstreams bloom-filters boxes \
     circular columns cuckoo-filters disjoint-sets dlists heaps interval-maps \

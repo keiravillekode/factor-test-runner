@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "status": "pass",
+  "tests": [
+    {
+      "name": "qw builds a sequence of strings",
+      "status": "pass",
+      "test_code": "{ { \"apple\" \"orange\" \"lime\" } } [ fruits ] unit-test"
+    },
+    {
+      "name": "infix add sums two numbers",
+      "status": "pass",
+      "test_code": "{ 7 } [ 3 4 add ] unit-test"
+    },
+    {
+      "name": "take-while keeps the leading run",
+      "status": "pass",
+      "test_code": "{ { 1 2 } } [ { 1 2 3 4 1 } small-prefix ] unit-test"
+    },
+    {
+      "name": "interpolate fills in the name",
+      "status": "pass",
+      "test_code": "{ \"Hello, World!\" } [ \"World\" greeting ] unit-test"
+    },
+    {
+      "name": "cycle repeats a sequence to length",
+      "status": "pass",
+      "test_code": "{ { 1 2 3 1 2 } } [ { 1 2 3 } 5 padded-cycle ] unit-test"
+    },
+    {
+      "name": "circular indexing wraps around",
+      "status": "pass",
+      "test_code": "{ 20 } [ 4 { 10 20 30 } wrap-nth ] unit-test"
+    },
+    {
+      "name": "pair-rocket builds an assoc",
+      "status": "pass",
+      "test_code": "{ H{ { \"ada\" 1 } { \"bob\" 2 } } } [ scores ] unit-test"
+    }
+  ]
+}

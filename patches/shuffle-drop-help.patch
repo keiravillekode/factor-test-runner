@@ -1,0 +1,22 @@
+diff --git a/extra/shuffle/shuffle.factor b/extra/shuffle/shuffle.factor
+index da69307ce7..d4c0eab80e 100644
+--- a/extra/shuffle/shuffle.factor
++++ b/extra/shuffle/shuffle.factor
+@@ -2,8 +2,7 @@
+ ! See https://factorcode.org/license.txt for BSD license.
+ 
+ USING: accessors assocs combinators combinators.short-circuit
+-definitions effects effects.parser generalizations help
+-help.markup kernel math parser ranges sequences
++definitions effects effects.parser generalizations kernel math parser ranges sequences
+ sequences.generalizations stack-checker.backend
+ stack-checker.known-words stack-checker.values words ;
+ 
+@@ -26,7 +25,6 @@ SYNTAX: SHUFFLE:
+     scan-new-word scan-effect {
+         [ [ '[ _ shuffle-effect ] ] keep define-declared ]
+         [ "shuffle" set-word-prop ]
+-        [ drop { $shuffle } swap set-word-help ]
+     } 2cleave ;
+ 
+ PREDICATE: shuffle-word < word
