@@ -30,6 +30,13 @@
       "test_code": "{ 64 } [ 4 cube ] unit-test",
       "task_id": 2,
       "message": "=== Expected:\n64\n=== Got:\n20"
+    },
+    {
+      "name": "Test 5",
+      "status": "error",
+      "test_code": "{ { } } [ { } but-first ] unit-test",
+      "task_id": 3,
+      "message": "Cannot create slice: from > to\nfrom 1\nto   0\nseq  { }"
     }
   ]
 }

@@ -11,3 +11,8 @@ STOP-HERE
 TASK: 2 cubing
 { 27 } [ "cubing 3" print 3 cube ] unit-test
 { 64 } [ 4 cube ] unit-test
+
+TASK: 3 dropping the first element
+! `{ } but-first` is `{ } rest`, which throws a slice-error. The runner must
+! report the readable summary, not a bare `T{ slice-error ... }`.
+{ { } } [ { } but-first ] unit-test
