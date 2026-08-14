@@ -1,5 +1,5 @@
 {
   "version": 3,
   "status": "error",
-  "message": "/opt/test-runner/tests/empty-file/empty-file/empty-file-tests.factor\n\n5: { \"hello\" } [ greet ] unit-test\n                      ^\nNo word named 'greet' found in current vocabulary search path"
+  "message": "empty-file/empty-file-tests.factor\n\n5: { \"hello\" } [ greet ] unit-test\n                      ^\nNo word named 'greet' found in current vocabulary search path"
 }

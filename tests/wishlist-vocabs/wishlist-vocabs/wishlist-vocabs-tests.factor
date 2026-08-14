@@ -21,3 +21,6 @@ IN: wishlist-vocabs.tests
 
 "pair-rocket builds an assoc" description
 { H{ { "ada" 1 } { "bob" 2 } } } [ scores ] unit-test
+
+"assoc-invert swaps keys and values" description
+{ H{ { 1 "ada" } { 2 "bob" } } } [ H{ { "ada" 1 } { "bob" 2 } } invert-assoc ] unit-test

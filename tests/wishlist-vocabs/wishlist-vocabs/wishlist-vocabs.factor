@@ -1,6 +1,6 @@
-USING: arrays circular hashtables infix interpolate kernel math
-       namespaces pair-rocket qw sequences sequences.extras
-       sequences.repeating ;
+USING: arrays assocs.extras circular hashtables infix interpolate
+       kernel math namespaces pair-rocket qw sequences
+       sequences.extras sequences.repeating ;
 IN: wishlist-vocabs
 
 ! qw{ ... } reads a whitespace-separated literal sequence of strings (qw).
@@ -25,3 +25,6 @@ INFIX:: add ( x y -- z ) x + y ;
 
 ! => pairs each key with the next value, building assoc literals (pair-rocket).
 : scores ( -- assoc ) { "ada" => 1 "bob" => 2 } >hashtable ;
+
+! assoc-invert swaps every key with its value (assocs.extras).
+: invert-assoc ( assoc -- newassoc ) assoc-invert ;

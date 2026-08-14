@@ -41,8 +41,8 @@ RUN rm -rf .git build vm src misc Factor.app \
     GNUmakefile Nmakefile LICENSE.txt README.md \
     build.sh build.cmd unmaintained
 
-# Keep only the extra/ source that sequences.extras needs to compile on demand:
-# itself plus extra/assocs.extras and extra/shuffle.
+# Keep only the extra/ source needed to compile sequences.extras and
+# assocs.extras on demand: those two plus extra/shuffle.
 RUN find extra -mindepth 1 -maxdepth 1 \
     ! -name sequences ! -name assocs ! -name shuffle \
     -exec rm -rf {} + && \

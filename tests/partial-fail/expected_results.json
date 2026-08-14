@@ -12,8 +12,14 @@
       "name": "greet returns world",
       "status": "fail",
       "test_code": "{ \"world\" } [ 2 . greet ] unit-test",
-      "message": "=== Expected:\n\"world\"\n=== Got:\n\"hello\"",
+      "message": "partial-fail/partial-fail-tests.factor:10\n=== Expected:\n\"world\"\n=== Got:\n\"hello\"",
       "output": "2"
+    },
+    {
+      "name": "registering the same name twice throws",
+      "status": "error",
+      "test_code": "{ H{ { \"ada\" \"hello\" } } }\n[ H{ } clone \"hello\" \"ada\" register \"world\" \"ada\" register ] unit-test",
+      "message": "partial-fail/partial-fail-tests.factor:14\nkey-exists\nvalue \"ada\"\nkey   H{ { \"ada\" \"hello\" } }\nassoc \"hello\""
     }
   ]
 }

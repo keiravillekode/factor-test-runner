@@ -73,7 +73,7 @@
       "status": "fail",
       "test_code": "{ 6 } [ 4 [ 6 roll-die ] play-seeded ] unit-test",
       "task_id": 5,
-      "message": "=== Expected:\n6\n=== Got:\n2"
+      "message": "concept-multiline/concept-multiline-tests.factor:62\n=== Expected:\n6\n=== Got:\n2"
     },
     {
       "name": "Test 13",

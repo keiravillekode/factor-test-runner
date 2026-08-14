@@ -47,7 +47,11 @@ tmp_dir=$(mktemp -d -t "factor-runner-${slug}-XXXXX")
 trap 'rm -rf "${tmp_dir}"' EXIT
 cp -r "${solution_dir}/." "${tmp_dir}"
 stripped_tests="${tmp_dir}/${slug}/${slug}-tests.factor"
-awk '!/^STOP-HERE$/' "${stripped_tests}" > "${stripped_tests}.new"
+# Blank each STOP-HERE line rather than deleting it: a blank line is a no-op
+# to Factor, and keeping the line count intact means the line numbers Factor
+# reports for failures still match the file the student submitted.
+awk '{ if ($0 ~ /^STOP-HERE$/) print ""; else print }' \
+    "${stripped_tests}" > "${stripped_tests}.new"
 mv "${stripped_tests}.new" "${stripped_tests}"
 
 # Run Factor; capture combined stdout/stderr.
@@ -131,7 +135,7 @@ src_tests=$(awk "${awk_json}"'
 
 # 2. Parse Factor stdout into NDJSON segments and failures:
 #    segments: {"type":"segment","idx":N,"failed":bool,"name":"...","output":"..."}
-#    failures: {"type":"failure","line_no":N,"message":"..."}
+#    failures: {"type":"failure","line_no":N,"location":"...","message":"..."}
 parsed=$(printf '%s\n' "${raw_output}" | awk "${awk_json}"'
     function close_segment(   out, i) {
         if (idx == 0) return
@@ -147,8 +151,8 @@ parsed=$(printf '%s\n' "${raw_output}" | awk "${awk_json}"'
         for (i = 1; i <= fail_n; i++) body = body (i > 1 ? "\n" : "") fail[i]
         sub(/^\n+/, "", body)
         sub(/\n+$/, "", body)
-        printf "{\"type\":\"failure\",\"line_no\":%d,\"message\":%s}\n",
-            fail_line, json_str(body)
+        printf "{\"type\":\"failure\",\"line_no\":%d,\"location\":%s,\"message\":%s}\n",
+            fail_line, json_str(fail_loc), json_str(body)
     }
     # Factor renders each test-word name into a title, e.g.:
     #   unit-test            → "Unit Test:"
@@ -221,8 +225,14 @@ parsed=$(printf '%s\n' "${raw_output}" | awk "${awk_json}"'
             n = substr($0, RSTART, RLENGTH)
             gsub(/[^0-9]/, "", n)
             fail_line = n + 0
+            # exercism-tools prints "<path>: <line#>"; collapse it to the
+            # conventional "<path>:<line#>" so the student can paste it
+            # into an editor. The path is already relative to the solution
+            # root, so it is safe to show as-is.
+            fail_loc = substr($0, 1, RSTART - 1) ":" fail_line
         } else {
             fail_line = 0
+            fail_loc = ""
         }
         fail_n = 0
         delete fail
@@ -276,7 +286,7 @@ jq -n \
     --argjson segs   "$(printf '%s\n' "${segments}"   | jq -s '.')" \
     --argjson fails  "$(printf '%s\n' "${failures}"   | jq -s '.')" \
     '
-    ($fails | map({(.line_no|tostring): .message}) | add // {}) as $fail_by_line
+    ($fails | map({(.line_no|tostring): .}) | add // {}) as $fail_by_line
     | $segs | sort_by(.idx)
     | to_entries
     | map(
@@ -284,7 +294,8 @@ jq -n \
         | (.key) as $i
         | ($srcs[$i] // null) as $src
         | ($src.line_no | tostring) as $ln
-        | ($fail_by_line[$ln] // null) as $msg
+        | ($fail_by_line[$ln] // null) as $fail
+        | ($fail.message // null) as $msg
         | (
             if $seg.failed then
                 if ($msg // "" | startswith("=== Expected:")) then "fail"
@@ -300,7 +311,11 @@ jq -n \
             test_code: ($src.test_code // ""),
           }
           + (if $src.task_id then {task_id: $src.task_id} else {} end)
-          + (if $seg.failed then {message: ($msg // "test failed")} else {} end)
+          + (if $seg.failed then
+               {message: (if $msg == null then "test failed"
+                          elif ($fail.location // "") == "" then $msg
+                          else $fail.location + "\n" + $msg end)}
+             else {} end)
           + (if $seg.output != "" then {output: ($seg.output[0:500])} else {} end)
       )
     | (if all(.status == "pass") then "pass" else "fail" end) as $top

@@ -21,7 +21,7 @@
       "status": "fail",
       "test_code": "{ 27 } [ \"cubing 3\" print 3 cube ] unit-test",
       "task_id": 2,
-      "message": "=== Expected:\n27\n=== Got:\n12",
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:12\n=== Expected:\n27\n=== Got:\n12",
       "output": "cubing 3"
     },
     {
@@ -29,42 +29,42 @@
       "status": "fail",
       "test_code": "{ 64 } [ 4 cube ] unit-test",
       "task_id": 2,
-      "message": "=== Expected:\n64\n=== Got:\n20"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:13\n=== Expected:\n64\n=== Got:\n20"
     },
     {
       "name": "Test 5",
       "status": "error",
       "test_code": "{ { } } [ { } but-first ] unit-test",
       "task_id": 3,
-      "message": "Cannot create slice: from > to\nfrom 1\nto   0\nseq  { }"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:16\nCannot create slice: from > to\nfrom 1\nto   0\nseq  { }"
     },
     {
       "name": "Test 6",
       "status": "error",
       "test_code": "{ 0 } [ 4 0 / ] unit-test",
       "task_id": 4,
-      "message": "Division by zero\nx 4"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:19\nDivision by zero\nx 4"
     },
     {
       "name": "Test 7",
       "status": "error",
       "test_code": "{ 0 } [ 10 { 1 2 3 } nth ] unit-test",
       "task_id": 5,
-      "message": "Sequence index out of bounds\nindex 10\nseq   { 1 2 3 }"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:22\nSequence index out of bounds\nindex 10\nseq   { 1 2 3 }"
     },
     {
       "name": "Test 8",
       "status": "error",
       "test_code": "{ \"text\" } [ 5 label ] unit-test",
       "task_id": 6,
-      "message": "Generic word label does not define a method for the fixnum class.\nDispatching on object: 5"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:25\nGeneric word label does not define a method for the fixnum class.\nDispatching on object: 5"
     },
     {
       "name": "Test 9",
       "status": "error",
       "test_code": "{ 0 } [ 5 [ drop ] call( x -- x ) ] unit-test",
       "task_id": 7,
-      "message": "Quotation's stack effect does not match call site\nquot      [ drop ]\ncall-site ( x -- x )"
+      "message": "concept-partial-fail/concept-partial-fail-tests.factor:28\nQuotation's stack effect does not match call site\nquot      [ drop ]\ncall-site ( x -- x )"
     }
   ]
 }

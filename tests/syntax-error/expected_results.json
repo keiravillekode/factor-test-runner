@@ -1,5 +1,5 @@
 {
   "version": 3,
   "status": "error",
-  "message": "/opt/test-runner/tests/syntax-error/syntax-error/syntax-error.factor\n\n4: : greet ( -- str ) @#$% ;\n                          ^\nNo word named '@#$%' found in current vocabulary search path"
+  "message": "syntax-error/syntax-error.factor\n\n4: : greet ( -- str ) @#$% ;\n                          ^\nNo word named '@#$%' found in current vocabulary search path"
 }

@@ -6,13 +6,13 @@
       "name": "greet returns hello",
       "status": "error",
       "test_code": "{ \"hello\" } [ greet ] unit-test",
-      "message": "unimplemented"
+      "message": "practice-stub/practice-stub-tests.factor:5\nunimplemented"
     },
     {
       "name": "greet returns world",
       "status": "error",
       "test_code": "{ \"world\" } [ greet ] unit-test",
-      "message": "unimplemented"
+      "message": "practice-stub/practice-stub-tests.factor:10\nunimplemented"
     }
   ]
 }

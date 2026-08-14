@@ -6,13 +6,13 @@
       "name": "greet returns hello",
       "status": "fail",
       "test_code": "{ \"hello\" } [ greet ] unit-test",
-      "message": "=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
+      "message": "all-fail/all-fail-tests.factor:5\n=== Expected:\n\"hello\"\n=== Got:\n\"wrong\""
     },
     {
       "name": "greet returns world",
       "status": "fail",
       "test_code": "{ \"world\" } [ greet ] unit-test",
-      "message": "=== Expected:\n\"world\"\n=== Got:\n\"wrong\""
+      "message": "all-fail/all-fail-tests.factor:10\n=== Expected:\n\"world\"\n=== Got:\n\"wrong\""
     }
   ]
 }

@@ -36,6 +36,11 @@
       "name": "pair-rocket builds an assoc",
       "status": "pass",
       "test_code": "{ H{ { \"ada\" 1 } { \"bob\" 2 } } } [ scores ] unit-test"
+    },
+    {
+      "name": "assoc-invert swaps keys and values",
+      "status": "pass",
+      "test_code": "{ H{ { 1 \"ada\" } { 2 \"bob\" } } } [ H{ { \"ada\" 1 } { \"bob\" 2 } } invert-assoc ] unit-test"
     }
   ]
 }
