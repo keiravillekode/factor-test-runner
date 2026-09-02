@@ -1,6 +1,6 @@
 # To refresh, copy the Digest from
 # `docker buildx imagetools inspect cgr.dev/chainguard/wolfi-base:latest`
-ARG WOLFI_BASE=cgr.dev/chainguard/wolfi-base@sha256:3258be472764337fd13095bcbb3182da170243b5819fd67ad4c0754590588b31
+ARG WOLFI_BASE=cgr.dev/chainguard/wolfi-base@sha256:7e62cecd3c5712dba6e52c5260afb8f9d7a23b9bbcdd26ad7508a811e74b766d
 
 FROM ${WOLFI_BASE} AS builder
 
